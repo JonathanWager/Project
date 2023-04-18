@@ -9,7 +9,7 @@ import androidx.appcompat.widget.SearchView
 
 
 class MovieSearchActivity : AppCompatActivity() {
-    private lateinit var searchView: SearchView
+    private lateinit var searchView: android.widget.SearchView
     private lateinit var listView: ListView
     private lateinit var adapter: ArrayAdapter<String>
     private var movieList: MutableList<Movie> = mutableListOf()
@@ -23,7 +23,7 @@ class MovieSearchActivity : AppCompatActivity() {
         adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1)
         listView.adapter = adapter
 
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
                     fetchMovie(it)
