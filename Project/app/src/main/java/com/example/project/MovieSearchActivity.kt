@@ -4,12 +4,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.SearchView
 import android.widget.Toast
-import androidx.appcompat.widget.SearchView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class MovieSearchActivity : AppCompatActivity() {
-    private lateinit var searchView: android.widget.SearchView
+    private lateinit var searchView: SearchView
     private lateinit var listView: ListView
     private lateinit var adapter: ArrayAdapter<String>
     private var movieList: MutableList<Movie> = mutableListOf()
@@ -23,7 +27,7 @@ class MovieSearchActivity : AppCompatActivity() {
         adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1)
         listView.adapter = adapter
 
-        searchView.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
                     fetchMovie(it)
@@ -35,6 +39,7 @@ class MovieSearchActivity : AppCompatActivity() {
             }
         })
     }
+    /*
     private fun fetchMovie(title: String) {
         val movie = fetchMovieData(title)
         if (movie != null) {
@@ -44,4 +49,23 @@ class MovieSearchActivity : AppCompatActivity() {
             Toast.makeText(this, "Movie not found", Toast.LENGTH_SHORT).show()
         }
     }
+     */
+    private fun fetchMovie(title: String) {
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                val movie = withContext(Dispatchers.IO) {
+                    fetchMovieData(title)
+                }
+                if (movie != null) {
+                    movieList.add(movie)
+                    adapter.add("${movie.title} (${movie.year})")
+                } else {
+                    Toast.makeText(this@MovieSearchActivity, "Movie not found", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@MovieSearchActivity, "Error fetching movie: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 }

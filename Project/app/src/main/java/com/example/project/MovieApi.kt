@@ -8,9 +8,9 @@ import org.json.JSONObject
     fun fetchMovieData(title: String): Movie? {
         val client = OkHttpClient()
         val url = HttpUrl.Builder()
-            .scheme("http")
+            .scheme("https")
             .host("www.omdbapi.com")
-            .addQueryParameter("t", title)
+            .addQueryParameter("i", title)
             .build()
         val request = Request.Builder()
             .url(url)
