@@ -6,11 +6,13 @@ import okhttp3.Request
 import org.json.JSONObject
 
     fun fetchMovieData(title: String): Movie? {
+        val apiKey = "fd8aff95"
         val client = OkHttpClient()
         val url = HttpUrl.Builder()
             .scheme("https")
             .host("www.omdbapi.com")
-            .addQueryParameter("i", title)
+            .addQueryParameter("t", title)
+            .addQueryParameter("apikey", apiKey)
             .build()
         val request = Request.Builder()
             .url(url)

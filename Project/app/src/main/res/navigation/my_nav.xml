@@ -20,4 +20,23 @@
         android:name="com.example.project.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <activity
+        android:id="@+id/movieDetailsActivity"
+        android:name="com.example.project.MovieDetailsActivity"
+        android:label="activity_movie_details"
+        tools:layout="@layout/activity_movie_details" />
+    <fragment
+        android:id="@+id/movieSearchFragment"
+        android:name="com.example.project.MovieSearchFragment"
+        android:label="fragment_movie_search"
+        tools:layout="@layout/activity_movie_search" >
+        <action
+            android:id="@+id/action_movieSearchFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieDetailFragment"
+        android:name="com.example.project.MovieDetailFragment"
+        android:label="fragment_movie_detail"
+        tools:layout="@layout/activity_movie_details" />
 </navigation>
