@@ -27,6 +27,7 @@ import org.json.JSONObject
         return Movie(
             title = jsonObject.getString("Title"),
             year = jsonObject.getString("Year"),
-            poster = jsonObject.getString("Poster")
+            poster = jsonObject.getString("Poster"),
+            plot = jsonObject.getString("Plot")
         )
     }

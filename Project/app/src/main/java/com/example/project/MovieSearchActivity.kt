@@ -11,6 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -21,6 +22,7 @@ class MovieSearchActivity : AppCompatActivity() {
     private lateinit var searchView: SearchView
     private lateinit var listView: ListView
     private lateinit var adapter: ArrayAdapter<String>
+    private lateinit var myButton: FloatingActionButton
     private var movieList: MutableList<Movie> = mutableListOf()
     private lateinit var navController: NavController
 
@@ -29,6 +31,7 @@ class MovieSearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_movie_search)
         searchView = findViewById(R.id.searchView2)
         listView = findViewById(R.id.listView)
+        myButton = findViewById(R.id.floatingActionButton2)
         navController = findNavController(R.id.fragmentContainerView4)
         navController.setGraph(R.navigation.my_nav)
 
@@ -56,6 +59,10 @@ class MovieSearchActivity : AppCompatActivity() {
                 return false
             }
         })
+        myButton.setOnClickListener {
+            navController.navigateUp()
+            navController.navigate(R.id.favoriteListActivity)
+        }
     }
     /*
     private fun fetchMovie(title: String) {
@@ -78,6 +85,11 @@ class MovieSearchActivity : AppCompatActivity() {
                 if (movie != null) {
                     movieList.add(movie)
                     adapter.add("${movie.title} (${movie.year}) (${movie.poster})")
+                    val navOptions = NavOptions.Builder()
+                        .setPopUpTo(R.id.movieSearchFragment, false)
+                        .build()
+                    val bundle = bundleOf("movie" to movie)
+                    navController.navigate(R.id.movieDetailsActivity, bundle, navOptions)
                 } else {
                     Toast.makeText(this@MovieSearchActivity, "Movie not found", Toast.LENGTH_SHORT).show()
                 }
